@@ -1,0 +1,84 @@
+name: Pipeline
+on: [push, pull_request]
+jobs:
+  build:
+    name: Build
+    runs-on: macos-latest
+    steps:
+      - name: Set up Go 1.13
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+
+      - name: Check out source code
+        uses: actions/checkout@v1
+
+      - name: Download dependencies
+        run: |
+          # add executables installed with go get to PATH
+          # TODO: this will hopefully be fixed by
+          # https://github.com/actions/setup-go/issues/14
+          export PATH=${PATH}:`go env GOPATH`/bin
+
+      - name: Build
+        env:
+          GOPROXY: "https://proxy.golang.org"
+        run: go build .
+
+  test:
+    name: Test
+    runs-on: macos-latest
+    steps:
+      - name: Set up Go 1.13
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+
+      - name: Check out source code
+        uses: actions/checkout@v1
+
+      - name: Download dependencies
+        run: |
+          # add executables installed with go get to PATH
+          # TODO: this will hopefully be fixed by
+          # https://github.com/actions/setup-go/issues/14
+          export PATH=${PATH}:`go env GOPATH`/bin
+
+      - name: Test
+        env:
+          GOPROXY: "https://proxy.golang.org"
+        run: go test -v ./...
+
+  Lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v1
+
+      - name: Run lint
+        run: |
+          # add executables installed with go get to PATH
+          # TODO: this will hopefully be fixed by
+          # https://github.com/actions/setup-go/issues/14
+          export PATH=${PATH}:`go env GOPATH`/bin
+          go get -u golang.org/x/lint/golint
+          golint -set_exit_status
+
+  Staticcheck:
+    name: Staticcheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v1
+
+      - name: Run staticcheck
+        run: |
+          # add executables installed with go get to PATH
+          # TODO: this will hopefully be fixed by
+          # https://github.com/actions/setup-go/issues/14
+          export PATH=${PATH}:`go env GOPATH`/bin
+          # Download dependencies
+          # Download Staticcheck
+          go get -u honnef.co/go/tools/cmd/staticcheck
+          staticcheck ./...
