@@ -6,7 +6,7 @@ Commonly manage certificates in both Venafi and Vault.
 
 Vault-Venafi is a CLI tool (`vv`) that helps manage certificates located in Venafi TPP and Hashicorp Vault. This provides a user with a single convenient interface to manage two separate systems with a few commands. The less convenient alternative could be using the Venafi web-admin from a browser and then using the vault cli tool in a terminal.
 
-When creating certificates in TPP and copying to Vault, the KV Secrets Engine is used. This is because the Vault PKI Secrets Engine does allow certificates to be imported.
+When creating certificates in TPP and copying to Vault, the KV Secrets Engine is used. This is because the Vault PKI Secrets Engine does not allow certificates to be imported.
 
 On the other hand, certificates created in Vault use the PKI Secrets Engine and then copied to TPP. The Vault KV Secrets Engine is also used here to store additional metadata.
 
