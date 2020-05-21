@@ -1,0 +1,6 @@
+# Ignore our binary and log file from test runs
+vaultafi
+vaultafi.log
+cover.out
+
+.idea
