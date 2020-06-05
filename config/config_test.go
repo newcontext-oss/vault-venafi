@@ -24,8 +24,9 @@ import (
 
 var dataDir string = "../testdata/config"
 
-func TestReadConfigWithValidFile(t *testing.T) {
+func TestReadConfigWithValidFileForTPP(t *testing.T) {
 	desired := &config.YAMLConfig{
+		VCloudAPIKey:  "",
 		VcertUsername: "vcert_user",
 		VcertPassword: "vcert_pass",
 		VcertZone:     "vcert_zone",
@@ -43,7 +44,29 @@ func TestReadConfigWithValidFile(t *testing.T) {
 		t.Fail()
 		t.Logf("Failed to create config from file: %s", err)
 	}
-	assert.Equal(t, desired, actual, "It should create a valid config from a yaml file")
+	assert.Equal(t, desired, actual, "It should create a valid config from a yaml file for use with TPP")
+}
+
+func TestReadConfigWithValidFileForCloud(t *testing.T) {
+	desired := &config.YAMLConfig{
+		VCloudAPIKey:  "1234abc-5678-99aa-b111-abc12345defg",
+		VcertUsername: "",
+		VcertPassword: "",
+		VcertZone:     "1234abc-5678-99aa-b111-abc12345defg",
+		ConnectorType: "cloud",
+		VaultToken:    "vault_token",
+		VaultBaseURL:  "vault_url",
+		VaultKVPath:   "vault_kv_path",
+		VaultPKIPath:  "vault_pki_path",
+		VaultRole:     "vault_role",
+		LogLevel:      "info",
+	}
+	actual, err := config.ReadConfig(dataDir, "test_config_cloud.yml")
+	if err != nil {
+		t.Fail()
+		t.Logf("Failed to create config from file: %s", err)
+	}
+	assert.Equal(t, desired, actual, "It should create a valid config from a yaml file for use with Venafi Cloud")
 }
 
 func TestReadConfigWithMissingFile(t *testing.T) {

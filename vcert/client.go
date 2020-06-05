@@ -40,6 +40,7 @@ type IProxy interface {
 
 // Proxy contains the necessary config information for a vcert proxy
 type Proxy struct {
+	APIKey        string
 	Username      string
 	Password      string
 	Zone          string
@@ -110,16 +111,23 @@ func (p *Proxy) RetrieveCertificateByThumbprint(thumprint string) (*certificate.
 
 // Login creates a session with the TPP server
 func (p *Proxy) Login() error {
-	auth := endpoint.Authentication{
-		User:     p.Username,
-		Password: p.Password,
-	}
-
 	var connectorType endpoint.ConnectorType
+	auth := endpoint.Authentication{}
 
 	switch p.ConnectorType {
 	case "tpp":
+		auth = endpoint.Authentication{
+			User:     p.Username,
+			Password: p.Password,
+		}
+
 		connectorType = endpoint.ConnectorTypeTPP
+	case "cloud":
+		auth = endpoint.Authentication{
+			APIKey: p.APIKey,
+		}
+
+		connectorType = endpoint.ConnectorTypeCloud
 	default:
 		return fmt.Errorf("connector type '%s' not found", p.ConnectorType)
 	}

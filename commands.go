@@ -75,12 +75,23 @@ func configureVaultafi(usePKI bool) error {
 		}
 	}
 
-	vcertProxy := &vcert.Proxy{
-		Username:      configYAML.VcertUsername,
-		Password:      configYAML.VcertPassword,
-		Zone:          configYAML.VcertZone,
-		BaseURL:       configYAML.VcertBaseURL,
-		ConnectorType: configYAML.ConnectorType,
+	var vcertProxy *vcert.Proxy
+
+	if len(configYAML.VCloudAPIKey) > 0 {
+		vcertProxy = &vcert.Proxy{
+			APIKey:        configYAML.VCloudAPIKey,
+			Zone:          configYAML.VcertZone,
+			BaseURL:       "https://api.venafi.cloud/v1/",
+			ConnectorType: configYAML.ConnectorType,
+		}
+	} else {
+		vcertProxy = &vcert.Proxy{
+			Username:      configYAML.VcertUsername,
+			Password:      configYAML.VcertPassword,
+			Zone:          configYAML.VcertZone,
+			BaseURL:       configYAML.VcertBaseURL,
+			ConnectorType: configYAML.ConnectorType,
+		}
 	}
 
 	vaultafi = Vaultafi{
