@@ -1,0 +1,9 @@
+vcloud_api_key: 1234abc-5678-99aa-b111-abc12345defg
+connector_type: cloud
+vcert_zone: 1234abc-5678-99aa-b111-abc12345defg
+vault_token: vault_token
+vault_base_url: vault_url
+vault_role: vault_role
+vault_kv_path: vault_kv_path
+vault_pki_path: vault_pki_path
+log_level: info

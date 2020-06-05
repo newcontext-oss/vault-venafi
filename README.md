@@ -24,7 +24,22 @@ go test ./...
 
 ## Config File
 
-Configuration is read at runtime from the `.vault-venafi.conf` file in calling user's home directory.
+Configuration is read at runtime from the `.vault-venafi.conf` file in calling user's home directory. Use the appropriate configuration file for your setup.
+
+### Venafi Cloud
+```
+apikey: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+zone: zzzzzzzz-zzzz-zzzz-zzzz-zzzzzzzzzzzz
+connector_type: cloud
+vault_token: token
+vault_base_url: http://127.0.0.1:8200
+vault_role: vault
+vault_kv_path: secret/kv/path
+vault_pki_path: secret/pki/path
+log_level: status
+```
+
+### Venafi Platform
 
 ```
 vcert_username: tppadmin

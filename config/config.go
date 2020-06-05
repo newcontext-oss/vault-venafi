@@ -47,6 +47,7 @@ var Quiet = false
 
 // YAMLConfig contains the configuration values and yaml tags for the config file
 type YAMLConfig struct {
+	VCloudAPIKey  string `yaml:"vcloud_api_key"`
 	VcertUsername string `yaml:"vcert_username"`
 	VcertPassword string `yaml:"vcert_password"`
 	VcertZone     string `yaml:"vcert_zone"`
