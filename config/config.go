@@ -47,18 +47,19 @@ var Quiet = false
 
 // YAMLConfig contains the configuration values and yaml tags for the config file
 type YAMLConfig struct {
-	VCloudAPIKey  string `yaml:"vcloud_api_key"`
-	VcertUsername string `yaml:"vcert_username"`
-	VcertPassword string `yaml:"vcert_password"`
-	VcertZone     string `yaml:"vcert_zone"`
-	VcertBaseURL  string `yaml:"vcert_base_url"`
-	ConnectorType string `yaml:"connector_type"`
-	VaultToken    string `yaml:"vault_token"`
-	VaultBaseURL  string `yaml:"vault_base_url"`
-	VaultKVPath   string `yaml:"vault_kv_path"`
-	VaultPKIPath  string `yaml:"vault_pki_path"`
-	VaultRole     string `yaml:"vault_role"`
-	LogLevel      string `yaml:"log_level"`
+	VCloudAPIKey     string `yaml:"vcloud_api_key"`
+	VcertUsername    string `yaml:"vcert_username"`
+	VcertPassword    string `yaml:"vcert_password"`
+	VcertZone        string `yaml:"vcert_zone"`
+	VcertAccessToken string `yaml:"vcert_access_token"`
+	VcertBaseURL     string `yaml:"vcert_base_url"`
+	ConnectorType    string `yaml:"connector_type"`
+	VaultToken       string `yaml:"vault_token"`
+	VaultBaseURL     string `yaml:"vault_base_url"`
+	VaultKVPath      string `yaml:"vault_kv_path"`
+	VaultPKIPath     string `yaml:"vault_pki_path"`
+	VaultRole        string `yaml:"vault_role"`
+	LogLevel         string `yaml:"log_level"`
 
 	SkipTLSValidation bool `yaml:"skip_tls_validation"`
 }

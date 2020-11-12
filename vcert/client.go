@@ -17,6 +17,7 @@ package vcert
 import (
 	"encoding/pem"
 	"fmt"
+	"github.com/Venafi/vcert/pkg/venafi/tpp"
 	"strings"
 	"time"
 
@@ -44,6 +45,7 @@ type Proxy struct {
 	Username      string
 	Password      string
 	Zone          string
+	AccessToken   string
 	BaseURL       string
 	ConnectorType string
 	Client        endpoint.Connector
@@ -116,12 +118,33 @@ func (p *Proxy) Login() error {
 
 	switch p.ConnectorType {
 	case "tpp":
-		auth = endpoint.Authentication{
-			User:     p.Username,
-			Password: p.Password,
-		}
-
 		connectorType = endpoint.ConnectorTypeTPP
+
+		if p.AccessToken != "" {
+			auth = endpoint.Authentication{
+				AccessToken: p.AccessToken,
+			}
+		} else {
+			connector, err := tpp.NewConnector(p.BaseURL, p.Zone, false, nil)
+			if err != nil {
+				return fmt.Errorf("could not create tpp client: %s", err)
+			}
+
+			resp, err := connector.GetRefreshToken(&endpoint.Authentication{
+				User: p.Username, Password: p.Password, ClientId: "vault-venafi",
+				Scope: "certificate:manage,delete,discover"})
+			if err != nil {
+				output.Print("DEPRECATED: could not connect auth access token to endpoint. defaulting to user/pass: %s", err)
+				auth = endpoint.Authentication{
+					User:     p.Username,
+					Password: p.Password,
+				}
+			} else {
+				auth = endpoint.Authentication{
+					AccessToken: resp.Access_token,
+				}
+			}
+		}
 	case "cloud":
 		auth = endpoint.Authentication{
 			APIKey: p.APIKey,
