@@ -134,10 +134,15 @@ func (p *Proxy) Login() error {
 				User: p.Username, Password: p.Password, ClientId: "vault-venafi",
 				Scope: "certificate:manage,delete,discover"})
 			if err != nil {
-				return fmt.Errorf("could not connect auth to endpoint: %s", err)
-			}
-			auth = endpoint.Authentication{
-				AccessToken: resp.Access_token,
+				output.Print("DEPRECATED: could not connect auth access token to endpoint. defaulting to user/pass: %s", err)
+				auth = endpoint.Authentication{
+					User:     p.Username,
+					Password: p.Password,
+				}
+			} else {
+				auth = endpoint.Authentication{
+					AccessToken: resp.Access_token,
+				}
 			}
 		}
 	case "cloud":
