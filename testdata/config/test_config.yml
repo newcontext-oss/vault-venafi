@@ -1,6 +1,7 @@
 vcert_username: vcert_user
 vcert_password: vcert_pass
 vcert_zone: vcert_zone
+vcert_access_token: vcert_access_token
 vcert_base_url: vcert_url
 vault_token: vault_token
 vault_base_url: vault_url

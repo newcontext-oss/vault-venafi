@@ -26,18 +26,19 @@ var dataDir string = "../testdata/config"
 
 func TestReadConfigWithValidFileForTPP(t *testing.T) {
 	desired := &config.YAMLConfig{
-		VCloudAPIKey:  "",
-		VcertUsername: "vcert_user",
-		VcertPassword: "vcert_pass",
-		VcertZone:     "vcert_zone",
-		VcertBaseURL:  "vcert_url",
-		ConnectorType: "tpp",
-		VaultToken:    "vault_token",
-		VaultBaseURL:  "vault_url",
-		VaultKVPath:   "vault_kv_path",
-		VaultPKIPath:  "vault_pki_path",
-		VaultRole:     "vault_role",
-		LogLevel:      "info",
+		VCloudAPIKey:     "",
+		VcertUsername:    "vcert_user",
+		VcertPassword:    "vcert_pass",
+		VcertZone:        "vcert_zone",
+		VcertAccessToken: "vcert_access_token",
+		VcertBaseURL:     "vcert_url",
+		ConnectorType:    "tpp",
+		VaultToken:       "vault_token",
+		VaultBaseURL:     "vault_url",
+		VaultKVPath:      "vault_kv_path",
+		VaultPKIPath:     "vault_pki_path",
+		VaultRole:        "vault_role",
+		LogLevel:         "info",
 	}
 	actual, err := config.ReadConfig(dataDir, "test_config.yml")
 	if err != nil {
