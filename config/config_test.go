@@ -31,7 +31,7 @@ func TestReadConfigWithValidFileForTPP(t *testing.T) {
 		VcertPassword:    "vcert_pass",
 		VcertZone:        "vcert_zone",
 		VcertAccessToken: "vcert_access_token",
-		VcertLegacyAuth:  "vcert_legacy_auth",
+		VcertLegacyAuth:  false,
 		VcertBaseURL:     "vcert_url",
 		ConnectorType:    "tpp",
 		VaultToken:       "vault_token",
