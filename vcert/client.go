@@ -46,6 +46,7 @@ type Proxy struct {
 	Password      string
 	Zone          string
 	AccessToken   string
+	LegacyAuth    bool
 	BaseURL       string
 	ConnectorType string
 	Client        endpoint.Connector
@@ -124,6 +125,12 @@ func (p *Proxy) Login() error {
 			auth = endpoint.Authentication{
 				AccessToken: p.AccessToken,
 			}
+		} else if p.LegacyAuth {
+			output.Print("DEPRECATED: Authorizing with APIKey. Please update your TPP server.\n")
+			auth = endpoint.Authentication{
+				User:     p.Username,
+				Password: p.Password,
+			}
 		} else {
 			connector, err := tpp.NewConnector(p.BaseURL, p.Zone, false, nil)
 			if err != nil {
@@ -134,15 +141,10 @@ func (p *Proxy) Login() error {
 				User: p.Username, Password: p.Password, ClientId: "vault-venafi",
 				Scope: "certificate:manage,delete,discover"})
 			if err != nil {
-				output.Print("DEPRECATED: could not connect auth access token to endpoint. defaulting to user/pass: %s", err)
-				auth = endpoint.Authentication{
-					User:     p.Username,
-					Password: p.Password,
-				}
-			} else {
-				auth = endpoint.Authentication{
-					AccessToken: resp.Access_token,
-				}
+				return fmt.Errorf("could not fetch access token. Enable legacy auth support\n")
+			}
+			auth = endpoint.Authentication{
+				AccessToken: resp.Access_token,
 			}
 		}
 	case "cloud":
