@@ -90,6 +90,7 @@ func configureVaultafi(usePKI bool) error {
 			Password:      configYAML.VcertPassword,
 			Zone:          configYAML.VcertZone,
 			AccessToken:   configYAML.VcertAccessToken,
+			LegacyAuth:    configYAML.VcertLegacyAuth,
 			BaseURL:       configYAML.VcertBaseURL,
 			ConnectorType: configYAML.ConnectorType,
 		}

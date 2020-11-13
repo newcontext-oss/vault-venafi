@@ -52,6 +52,7 @@ type YAMLConfig struct {
 	VcertPassword    string `yaml:"vcert_password"`
 	VcertZone        string `yaml:"vcert_zone"`
 	VcertAccessToken string `yaml:"vcert_access_token"`
+	VcertLegacyAuth  bool   `yaml:"vcert_legacy_auth"`
 	VcertBaseURL     string `yaml:"vcert_base_url"`
 	ConnectorType    string `yaml:"connector_type"`
 	VaultToken       string `yaml:"vault_token"`
