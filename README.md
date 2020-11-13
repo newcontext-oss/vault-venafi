@@ -85,6 +85,7 @@ vault_pki_path: secret/pki/path
 log_level: status
 ```
 
+```
 Where:
 vcert_username/vcert_password: will be credentials of the user to log into Venafi TPP
 vcert_zone: policy path in Venafi TPP to store certificates, this path MUST pre-created
@@ -98,6 +99,7 @@ vault_pki_path: the path in Vault where the Vault certificates are stored
 vault_role: the role to use in Vault when creating certificates
 Log_level: STATUS, VERBOSE, INFO or ERROR
 skip_tls_validation: true (when using self-signed certificates)
+```
 
 **NOTE**: The vcert_access_token is optional as the Vault-Venafi tool will obtain a token on the fly for the username if one is not specified.
 
