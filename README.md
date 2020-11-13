@@ -45,6 +45,7 @@ vcert_username: tppadmin
 vcert_password: topsecret
 vcert_zone: \Certificates
 vcert_base_url: https://yourvenafiinstall.com/vedsdk/
+vcert_access_token: WkDQ/zJsFOXzLEWQQ51mlw== (optional)
 connector_type: tpp
 vault_token: token
 vault_base_url: http://127.0.0.1:8200
@@ -56,7 +57,7 @@ log_level: status
 
 ##### Direct Access Token Support
 ```
-access_token: bearer_access_token
+vcert_access_token: WkDQ/zJsFOXzLEWQQ51mlw== (bearer access token)
 vcert_zone: \Certificates
 vcert_base_url: https://yourvenafiinstall.com/vedsdk/
 connector_type: tpp
@@ -76,7 +77,6 @@ vcert_legacy_auth: true
 vcert_zone: \Certificates
 vcert_base_url: https://yourvenafiinstall.com/vedsdk/
 connector_type: tpp
-vcert_access_token: WkDQ/zJsFOXzLEWQQ51mlw== (optional)
 vault_token: token
 vault_base_url: http://127.0.0.1:8200
 vault_role: vault
