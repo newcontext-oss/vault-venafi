@@ -40,10 +40,39 @@ log_level: status
 ```
 
 ### Venafi Platform
-
 ```
 vcert_username: tppadmin
 vcert_password: topsecret
+vcert_zone: \Certificates
+vcert_base_url: https://yourvenafiinstall.com/vedsdk/
+connector_type: tpp
+vault_token: token
+vault_base_url: http://127.0.0.1:8200
+vault_role: vault
+vault_kv_path: secret/kv/path
+vault_pki_path: secret/pki/path
+log_level: status
+```
+
+##### Direct Access Token Support
+```
+access_token: bearer_access_token
+vcert_zone: \Certificates
+vcert_base_url: https://yourvenafiinstall.com/vedsdk/
+connector_type: tpp
+vault_token: token
+vault_base_url: http://127.0.0.1:8200
+vault_role: vault
+vault_kv_path: secret/kv/path
+vault_pki_path: secret/pki/path
+log_level: status
+```
+
+##### Legacy APIKey Support
+```
+vcert_username: tppadmin
+vcert_password: topsecret
+vcert_legacy_auth: true
 vcert_zone: \Certificates
 vcert_base_url: https://yourvenafiinstall.com/vedsdk/
 connector_type: tpp
@@ -68,6 +97,10 @@ This is required for managing certificates between TPP and Vault PKI. For exampl
 ### vault_role
 
 Role used when creating certificates with Vault PKI Secrets Engine.
+
+### vcert_legacy_auth
+
+(Deprecated) Flag used when connecting to an older TPP service.
 
 ## Help Usage
 

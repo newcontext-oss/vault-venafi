@@ -141,7 +141,7 @@ func (p *Proxy) Login() error {
 				User: p.Username, Password: p.Password, ClientId: "vault-venafi",
 				Scope: "certificate:manage,delete,discover"})
 			if err != nil {
-				return fmt.Errorf("could not fetch access token. Enable legacy auth support: %s", err)
+				return fmt.Errorf("could not fetch access token. Enable legacy auth support\n")
 			}
 			auth = endpoint.Authentication{
 				AccessToken: resp.Access_token,
