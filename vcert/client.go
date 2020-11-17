@@ -234,7 +234,7 @@ func prependVEDRoot(zone string) string {
 
 // logout revokes a access token in tpp (delete is not available via the tpp client library)
 func (p *Proxy) Logout() error {
-	if CreatedAccessToken == true {
+	if CreatedAccessToken {
 		var bearer = "Bearer " + p.AccessToken
 		req, err := http.NewRequest("GET", p.BaseURL+"/vedauth/revoke/token", nil)
 		if err != nil {
