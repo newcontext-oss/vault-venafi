@@ -18,6 +18,7 @@ import (
 	"encoding/pem"
 	"fmt"
 	"github.com/Venafi/vcert/pkg/venafi/tpp"
+	"net/http"
 	"strings"
 	"time"
 
@@ -28,6 +29,7 @@ import (
 )
 
 var origin = "NewContext Vault-Venafi"
+var CreatedAccessToken = false
 
 // IProxy defines the interface for proxies that manage requests to vcert
 type IProxy interface {
@@ -37,6 +39,7 @@ type IProxy interface {
 	PutCertificate(certName string, cert string, privateKey string) error
 	ListCertificates(vlimit int, zone string) ([]certificate.CertificateInfo, error)
 	Login() error
+	Logout() error
 }
 
 // Proxy contains the necessary config information for a vcert proxy
@@ -93,7 +96,7 @@ func (p *Proxy) ListCertificates(limit int, zone string) ([]certificate.Certific
 		return []certificate.CertificateInfo{}, err
 	}
 
-	output.Verbose("certInfo %+v", certInfo)
+	output.Verbose("certInfo %+v\n", certInfo)
 
 	for a, b := range certInfo {
 		output.Verbose("cert %+v %+v\n", a, b)
@@ -143,6 +146,8 @@ func (p *Proxy) Login() error {
 			if err != nil {
 				return fmt.Errorf("could not fetch access token. Enable legacy auth support: %s", err)
 			}
+			CreatedAccessToken = true
+			p.AccessToken = resp.Access_token
 			auth = endpoint.Authentication{
 				AccessToken: resp.Access_token,
 			}
@@ -225,4 +230,27 @@ func prependVEDRoot(zone string) string {
 	zone = strings.TrimPrefix(zone, "\\")
 	zone = strings.TrimPrefix(zone, "VED\\")
 	return "\\VED\\" + zone
+}
+
+// logout revokes a access token in tpp (delete is not available via the tpp client library)
+func (p *Proxy) Logout() error {
+	if CreatedAccessToken == true {
+		var bearer = "Bearer " + p.AccessToken
+		req, err := http.NewRequest("GET", p.BaseURL+"/vedauth/revoke/token", nil)
+		if err != nil {
+			return fmt.Errorf("could not connect to access token endpoint: %s", err)
+		}
+		req.Header.Set("Authorization", bearer)
+
+		// Send req using http Client
+		client := &http.Client{}
+		resp, err := client.Do(req)
+		if err != nil {
+			return fmt.Errorf("could not connect to access token endpoint endpoint: %s", err)
+		}
+
+		defer resp.Body.Close()
+		output.Verbose("revoking created access token")
+	}
+	return nil
 }
