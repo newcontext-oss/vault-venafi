@@ -73,6 +73,11 @@ func (v *Vaultafi) createCertVenafi(name string, cmd *CreateCommand) error {
 		return err
 	}
 
+	err = v.vcert.Logout()
+	if err != nil {
+		output.Errorf("error with cleanup. %s\n", err)
+	}
+
 	return nil
 }
 
@@ -109,6 +114,11 @@ func (v *Vaultafi) createCertVault(name string, cmd *CreateCommand) error {
 		return err
 	}
 
+	err = v.vcert.Logout()
+	if err != nil {
+		output.Errorf("error with cleanup. %s\n", err)
+	}
+
 	return nil
 }
 
@@ -136,6 +146,11 @@ func (v *Vaultafi) revokeCertVenafi(name string) error {
 		return err
 	}
 
+	err = v.vcert.Logout()
+	if err != nil {
+		output.Errorf("error with cleanup. %s\n", err)
+	}
+
 	return err
 }
 
@@ -161,6 +176,11 @@ func (v *Vaultafi) revokeCertVault(name string) error {
 	err = v.vault.RevokeCertificate(name)
 	if err != nil {
 		return err
+	}
+
+	err = v.vcert.Logout()
+	if err != nil {
+		output.Errorf("error with cleanup. %s\n", err)
 	}
 
 	return err
@@ -209,6 +229,10 @@ func (v *Vaultafi) listBoth(args *ListCommand) ([]CertCompareData, error) {
 		output.Errorf("The Venafi limit was hit, consider increasing -vlimit to increase the number of allowed records.\n")
 	}
 
+	err = v.vcert.Logout()
+	if err != nil {
+		output.Errorf("error with cleanup. %s\n", err)
+	}
 	return data, nil
 }
 

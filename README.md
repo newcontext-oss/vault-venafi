@@ -4,7 +4,7 @@ Commonly manage certificates in both Venafi and Vault.
 
 [![New Context](https://img.shields.io/badge/awesome-for%20hire-orange?style=flat-square)](http://www.newcontext.com)
 
-Vault-Venafi is a CLI tool (`vv`) that helps manage keys & certificates, also known as machine identities, located in Venafi Trust Protection Platform and Hashicorp Vault. This provides the user with a single, convenient interface to manage two separate systems with a few commands. 
+Vault-Venafi is a CLI tool (`vv`) that helps manage keys & certificates, also known as machine identities, located in Venafi Trust Protection Platform and Hashicorp Vault. This provides the user with a single, convenient interface to manage two separate systems with a few commands.
 
 When creating machine identities in Venafi TPP and copying to Vault, the KV Secrets Engine is used. This is because the Vault PKI Secrets Engine does not allow certificates to be imported from external sources.
 
@@ -45,6 +45,7 @@ vcert_username: tppadmin
 vcert_password: topsecret
 vcert_zone: \Certificates
 vcert_base_url: https://yourvenafiinstall.com/vedsdk/
+vcert_access_token: WkDQ/zJsFOXzLEWQQ51mlw== (optional)
 connector_type: tpp
 vault_token: token
 vault_base_url: http://127.0.0.1:8200
@@ -56,7 +57,7 @@ log_level: status
 
 ##### Direct Access Token Support
 ```
-access_token: bearer_access_token
+vcert_access_token: WkDQ/zJsFOXzLEWQQ51mlw== (bearer access token)
 vcert_zone: \Certificates
 vcert_base_url: https://yourvenafiinstall.com/vedsdk/
 connector_type: tpp
@@ -83,6 +84,26 @@ vault_kv_path: secret/kv/path
 vault_pki_path: secret/pki/path
 log_level: status
 ```
+
+```
+Where:
+vcert_username/vcert_password: will be credentials of the user to log into Venafi TPP
+vcert_zone: policy path in Venafi TPP to store certificates, this path MUST pre-created
+vcert_base_url: the URL to Venafi TPP
+vcert_access_token: bearer token obtained from Venafi TPP, used for token-based authentication in v19.2+ (optional)
+connector_type: Venafi tpp or cloud
+vault_token: access token to be used for Vault
+vault_base_url: the URL to the Vault instance
+vault_kv_path: the path in Vault where the key-value pair Venafi certificates are stored
+vault_pki_path: the path in Vault where the Vault certificates are stored
+vault_role: the role to use in Vault when creating certificates
+Log_level: STATUS, VERBOSE, INFO or ERROR
+skip_tls_validation: true (when using self-signed certificates)
+```
+
+**NOTE**: The vcert_access_token is optional as the Vault-Venafi tool will obtain a token on the fly for the username if one is not specified.
+
+Previous to Venafi Trust Protection Platform (TPP) v19.2 all authentication was handled via username/password with an API-Key. With TPP v19.2 token-based authentication was introduced and Venafi plans to deprecate the API-Key authentication method at the end of 2020. TPP v20.4 will be the last release that supports API-Key authentication.
 
 ### vault_kv_path
 
